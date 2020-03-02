@@ -4,6 +4,21 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createProfile, getCurrentProfile } from '../../actions/profile';
 
+const initialState = {
+  company: '',
+  website: '',
+  location: '',
+  status: '',
+  skills: '',
+  githubusername: '',
+  bio: '',
+  twitter: '',
+  facebook: '',
+  linkedin: '',
+  youtube: '',
+  instagram: ''
+};
+
 const EditProfile = ({
   profile: { profile, loading },
   createProfile,
@@ -11,24 +26,14 @@ const EditProfile = ({
   history
 }) => {
   const [formData, setFormData] = useState({
-    company: '',
-    website: '',
-    location: '',
-    status: '',
-    skills: '',
-    githubusername: '',
-    bio: '',
-    twitter: '',
-    facebook: '',
-    linkedin: '',
-    youtube: '',
-    instagram: ''
+    initialState
   });
 
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
   useEffect(() => {
     getCurrentProfile();
+
     setFormData({
       company: loading || !profile.company ? '' : profile.company,
       website: loading || !profile.website ? '' : profile.website,
@@ -44,7 +49,7 @@ const EditProfile = ({
       youtube: loading || !profile.social ? '' : profile.social.youtube,
       instagram: loading || !profile.social ? '' : profile.social.instagram
     });
-  }, [loading]);
+  }, [loading, getCurrentProfile]);
 
   const {
     company,
@@ -218,7 +223,7 @@ const EditProfile = ({
                 placeholder="Linkedin URL"
                 name="linkedin"
                 value={linkedin}
-                onChange={e => onChange()}
+                onChange={e => onChange(e)}
               />
             </div>
 
@@ -229,7 +234,7 @@ const EditProfile = ({
                 placeholder="Instagram URL"
                 name="instagram"
                 value={instagram}
-                onChange={e => onChange()}
+                onChange={e => onChange(e)}
               />
             </div>
           </Fragment>
